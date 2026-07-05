@@ -25,10 +25,10 @@ jobs:
     name: 🚧${{ matrix.icon }} msvc ${{ matrix.arch }}
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
 
     - name: '${{ matrix.icon }} Build vcpkg'
-      uses: johnwason/vcpkg-action@v7
+      uses: johnwason/vcpkg-action@v8
       id: vcpkg
       with:
         pkgs: gtest zlib
@@ -36,25 +36,25 @@ jobs:
         token: ${{ github.token }}
 
     - name: '${{ matrix.icon }} Install NSIS'
-      uses: repolevedavaj/install-nsis@v1.1.0
+      uses: repolevedavaj/install-nsis@v1.2.1
       with:
-        nsis-version: '3.11'
+        nsis-version: '3.12'
 
     - name: '${{ matrix.icon }} Setup MSVC'
-      uses: ilammy/msvc-dev-cmd@v1
+      uses: TheMrMilchmann/setup-msvc-dev@v4
       with:
         arch: ${{ matrix.arch }}
 
     - name: '${{ matrix.icon }} Temp Environment Variable'
       run: mkdir temp
 
-    - name: '${{ matrix.icon }} Downloading a DLS file for testing'
-      uses: ethanjli/cached-download-action@v0.1.3
-      with:
-        url: http://www.ronimusic.com/sf2/Airfont_340.dls
-        destination: ${{env.TEMP}}/soundfont.dls
-        cache-key: cached.soundfont.dls
-        enable-cross-os-archive: true
+    # - name: '${{ matrix.icon }} Downloading a DLS file for testing'
+    #   uses: ethanjli/cached-download-action@v0.1.4
+    #   with:
+    #     url: http://www.ronimusic.com/sf2/Airfont_340.dls
+    #     destination: ${{env.TEMP}}/soundfont.dls
+    #     cache-key: cached.soundfont.dls
+    #     enable-cross-os-archive: true
 
     - name: '${{ matrix.icon }} Configure CMake'
       id: configuration
@@ -81,7 +81,7 @@ jobs:
       run: cmake --install ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
     - name: '${{ matrix.icon }} Upload Artifacts'
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: SonivoxV4-msvc-${{matrix.arch}}
         path: ${{env.INSTALL_LOCATION}}
@@ -89,7 +89,7 @@ jobs:
         overwrite: true
 
     - name: '${{ matrix.icon }} Upload Installer'
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: SonivoxV4-msvc-installer-${{matrix.arch}}
         path: ${{github.workspace}}/build/sonivox-${{steps.configuration.outputs.config_version}}-${{matrix.arch}}.exe
