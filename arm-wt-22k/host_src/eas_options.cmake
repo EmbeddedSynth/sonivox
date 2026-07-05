@@ -33,5 +33,6 @@
 #cmakedefine _SF2_SUPPORT
 #cmakedefine _FLOAT_DCF
 #cmakedefine MP3_SUPPORT
+#cmakedefine SOUNDFONT_TEST
 
 #endif // EAS_OPTIONS_CMAKE

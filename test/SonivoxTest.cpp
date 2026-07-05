@@ -18,7 +18,6 @@
 #include <utils/Log.h>
 
 #include <fcntl.h>
-#include <fstream>
 
 #include <eas.h>
 #include <eas_report.h>
@@ -56,8 +55,10 @@ public:
 
     ~SonivoxTest()
     {
-        if (mFd >= 0)
+        if (mFd >= 0) {
             close(mFd);
+            mFd = -1;
+        }
         if (mPCMBuffer) {
             delete[] mPCMBuffer;
             mPCMBuffer = nullptr;
@@ -86,6 +87,7 @@ public:
 
         ASSERT_NE(mEASDataHandle, nullptr) << "Failed to initialize EAS data handle";
 
+#if defined(SOUNDFONT_TEST)
         if (mSoundFont.length() > 0) {
             string soundfontpath = gEnv->getTmp() + mSoundFont;
             mFd = open(soundfontpath.c_str(), O_RDONLY | OPEN_FLAG);
@@ -104,8 +106,9 @@ public:
             result = EAS_LoadDLSCollection(mEASDataHandle, nullptr, &mDLSFile);
             ASSERT_EQ(result, EAS_SUCCESS) << "Failed to load DLS file: " << soundfontpath;
             close(mFd);
+            mFd = -1;
         }
-
+#endif
         mFd = open(mInputMediaFile.c_str(), O_RDONLY | OPEN_FLAG);
         ASSERT_GE(mFd, 0) << "Failed to get the file descriptor for file: " << mInputMediaFile;
 
@@ -183,7 +186,7 @@ public:
     uint32_t mAudioSampleRate{0};
     off64_t mBase;
     int64_t mLength{0};
-    int mFd;
+    int mFd{-1};
 
     EAS_DATA_HANDLE mEASDataHandle;
     EAS_HANDLE mEASStreamHandle;
@@ -288,7 +291,10 @@ TEST_P(SonivoxTest, DecodeTest) {
         ASSERT_EQ(numBytes, numBytesOutput)
                 << "Wrote " << numBytes << " of " << numBytesOutput << " to file: " << gEnv->OUTPUT_FILE;
     }
-    fclose(filePtr);
+    if (filePtr) {
+        fclose(filePtr);
+        filePtr = nullptr;
+    }
 }
 
 TEST_P(SonivoxTest, SeekTest) {
@@ -365,7 +371,7 @@ INSTANTIATE_TEST_SUITE_P(SonivoxTest2,
                          ::testing::Values(make_tuple("testmxmf.mxmf", 29095, "")));
 #endif
 
-#if defined(DLS_SYNTHESIZER)
+#if defined(DLS_SYNTHESIZER) && defined(SOUNDFONT_TEST)
 INSTANTIATE_TEST_SUITE_P(SonivoxTest3,
                          SonivoxTest,
                          ::testing::Values(make_tuple("test.mid", 2400, "soundfont.dls")));
