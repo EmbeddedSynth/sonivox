@@ -477,6 +477,7 @@ if (BUILD_TESTING)
 
     if (SOUNDFONT_TEST)
         set(SOUNDFONT "${TEMPDIR}/soundfont.dls")
+        target_compile_definitions(SonivoxTest PUBLIC SOUNDFONT_TEST)
         if (NOT EXISTS ${SOUNDFONT})
             message(STATUS "Downloading DLS file for testing to ${SOUNDFONT}")
             file(DOWNLOAD "http://www.ronimusic.com/sf2/Airfont_340.dls" ${SOUNDFONT})
