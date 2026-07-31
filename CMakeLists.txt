@@ -18,7 +18,7 @@ cmake_minimum_required(VERSION 3.21)
 
 project( sonivox
     LANGUAGES C CXX
-    VERSION 4.0.1.0
+    VERSION 4.0.2.0
 )
 
 # GoogleTest requires at least C++14
@@ -92,6 +92,10 @@ if (SF2_SUPPORT)
     set(_SF2_SUPPORT ON)
     set(_FLOAT_DCF ON)
 endif()
+
+set(DLS_URL  "https://ftp.chasnah.com/soundfonts/Airfont_340.dls" CACHE STRING "DLS file URL for testing")
+set(DLS_SIZE "81362584" CACHE STRING "DLS file size")
+set(DLS_HASH "beb3e39e3c9fc51ef4dff36fdd8db0361471a91d244c3ee78af90f6d3c783b04" CACHE STRING "DLS file SHA256 hash")
 
 if (DEFINED ENV{GITHUB_OUTPUT})
     file(APPEND
@@ -479,14 +483,14 @@ if (BUILD_TESTING)
         set(SOUNDFONT "${TEMPDIR}/soundfont.dls")
         target_compile_definitions(SonivoxTest PUBLIC SOUNDFONT_TEST)
         if (NOT EXISTS ${SOUNDFONT})
-            message(STATUS "Downloading DLS file for testing to ${SOUNDFONT}")
-            file(DOWNLOAD "http://www.ronimusic.com/sf2/Airfont_340.dls" ${SOUNDFONT})
+            message(STATUS "Downloading DLS file from ${DLS_URL} for testing to ${SOUNDFONT}")
+            file(DOWNLOAD ${DLS_URL} ${SOUNDFONT})
 
             file(SIZE ${SOUNDFONT} SOUNDFONTSIZE)
-            file(MD5 ${SOUNDFONT} SOUNDFONTHASH)
+            file(SHA256 ${SOUNDFONT} SOUNDFONTHASH)
             message(STATUS "DLS file ${SOUNDFONT} size: ${SOUNDFONTSIZE}")
-            message(STATUS "DLS file ${SOUNDFONT} MD5 hash: ${SOUNDFONTHASH}")
-            if (NOT (SOUNDFONTSIZE EQUAL 81362584 AND SOUNDFONTHASH STREQUAL "40c0cd4ad29ae411a8fc3d6681002a2b"))
+            message(STATUS "DLS file ${SOUNDFONT} SHA256 hash: ${SOUNDFONTHASH}")
+            if (NOT (SOUNDFONTSIZE EQUAL ${DLS_SIZE} AND SOUNDFONTHASH STREQUAL ${DLS_HASH}))
                 message(FATAL_ERROR "The downloaded DLS file is corrupted.")
             endif()
         endif()

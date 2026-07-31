@@ -35,6 +35,7 @@ The build system has the following options:
 * `USE_16BITS_SAMPLES`: Uses 16 bits samples (instead of 8 bit). ON by default. The rendered audio uses always 16 bits.
 * `BUILD_SHARED_LIBS`: to control the generation and install of both the static or shared libraries from the sources. (ON by default).
 * `BUILD_TESTING`: ON by default, to control if the unit tests are built, which require Google Test.
+* `SOUNDFONT_TEST`: OFF by default, to unit test DLS processing.
 * `BUILD_APPLICATION`: ON by default, to build and install the CLI program. ON by default.
 * `NEW_HOST_WRAPPER`: Uses the new CRT-based host wrapper for faster file loading. ON by default.
 * `SF2_SUPPORT`: Enable SF2 support and float DCF. ON by default.
@@ -49,6 +50,12 @@ The synthesizer types options (at least one must be enabled):
 * `EAS_HYBRID_SYNTH`: Enable Hybrid Synth. OFF by default. Requires both `USE_44KHZ` and `USE_16BITS_SAMPLES` to be OFF.
 
 * `MAX_VOICES`: Maximum number of voices. 64 by default.
+
+Other CMake variables that you may want to override when SOUNDFONT_TEST is ON:
+
+* `DLS_URL`;  https://ftp.chasnah.com/soundfonts/Airfont_340.dls
+* `DLS_SIZE`: 81362584 (size of the DLS file in bytes)
+* `DLS_HASH`: beb3e39e3c9fc51ef4dff36fdd8db0361471a91d244c3ee78af90f6d3c783b04 (SHA256 hash of the DLS file)
 
 See also the [CMake documentation](https://cmake.org/cmake/help/latest/index.html) for common build options.
 
