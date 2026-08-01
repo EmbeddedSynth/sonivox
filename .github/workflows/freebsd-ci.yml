@@ -22,13 +22,13 @@ jobs:
       run: |
         mkdir -p ${{github.workspace}}/temp
 
-    # - name: Downloading a DLS file for testing
-    #   uses: ethanjli/cached-download-action@v0.1.4
-    #   with:
-    #     url: http://www.ronimusic.com/sf2/Airfont_340.dls
-    #     destination: ${{env.TEMP}}/soundfont.dls
-    #     cache-key: cached.soundfont.dls
-    #     enable-cross-os-archive: true
+    - name: Downloading a DLS file for testing
+      uses: ethanjli/cached-download-action@v0.1.4
+      with:
+        url: https://ftp.chasnah.com/soundfonts/Airfont_340.dls
+        destination: ${{env.TEMP}}/soundfont.dls
+        cache-key: cached.soundfont.dls
+        enable-cross-os-archive: true
 
     - name: FreeBSD test
       id: test

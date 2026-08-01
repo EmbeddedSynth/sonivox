@@ -48,13 +48,13 @@ jobs:
     - name: '${{ matrix.icon }} Temp Environment Variable'
       run: mkdir temp
 
-    # - name: '${{ matrix.icon }} Downloading a DLS file for testing'
-    #   uses: ethanjli/cached-download-action@v0.1.4
-    #   with:
-    #     url: http://www.ronimusic.com/sf2/Airfont_340.dls
-    #     destination: ${{env.TEMP}}/soundfont.dls
-    #     cache-key: cached.soundfont.dls
-    #     enable-cross-os-archive: true
+    - name: '${{ matrix.icon }} Downloading a DLS file for testing'
+      uses: ethanjli/cached-download-action@v0.1.4
+      with:
+        url: https://ftp.chasnah.com/soundfonts/Airfont_340.dls
+        destination: ${{env.TEMP}}/soundfont.dls
+        cache-key: cached.soundfont.dls
+        enable-cross-os-archive: true
 
     - name: '${{ matrix.icon }} Configure CMake'
       id: configuration
