@@ -74,6 +74,7 @@ jobs:
         -DDEPENDENCY_DIRS=${{steps.tmp.outputs.dependencies}}
         -DCPACK_SYSTEM_NAME=${{matrix.sys}}
         -DINSTALL_DEPENDENCIES=ON
+        -DSOUNDFONT_TEST=ON
 
     - name: '${{ matrix.icon }} Build'
       run: cmake --build build --config ${{env.BUILD_TYPE}}
