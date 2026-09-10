@@ -106,7 +106,7 @@ endif()
 
 include(GNUInstallDirs)
 
-set(PROJECT_RELEASE_DATE "September 7, 2026")
+# set(PROJECT_RELEASE_DATE "September 7, 2026")
 
 if (BUILD_TESTING)
     find_package(GTest CONFIG)
@@ -518,7 +518,7 @@ endif()
 
 # CPack support
 set ( CPACK_PACKAGE_DESCRIPTION_SUMMARY "Sonivox EAS synthesizer" )
-set ( CPACK_PACKAGE_VENDOR "https://github.com/pedrolcl/sonivox" )
+set ( CPACK_PACKAGE_VENDOR "https://github.com/EmbeddedSynth/sonivox" )
 set ( CPACK_PACKAGE_DESCRIPTION_FILE "${sonivox_SOURCE_DIR}/README.md" )
 set ( CPACK_RESOURCE_FILE_LICENSE "${sonivox_SOURCE_DIR}/LICENSE" )
 set ( CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR} )
