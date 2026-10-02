@@ -49,7 +49,7 @@ jobs:
           toolchain:p
           cmake:p
           ninja:p
-          gtest:p
+# removed gtest:p because x86 has been deprecated by msys2, using FetchContent instead
 
     - name: '${{ matrix.icon }} TEMP Environment Variable'
       id: tmp
